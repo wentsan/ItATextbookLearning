@@ -1,4 +1,4 @@
-#include <iostream>
+#include "drawTreeInTerminal.h"
 
 using namespace std;
 
@@ -7,15 +7,6 @@ using namespace std;
 #define RED 1
 #define BLACK 0
 #define MAXLENGTH 10
-
-struct node
-{
-  int key;
-  struct node *p;
-  struct node *left;
-  struct node *right;
-  int color;
-};
 
 void leftRotate(struct node *T[], struct node *x);
 void rightRotate(struct node *T[], struct node *x);
@@ -91,50 +82,52 @@ void rbInsertFixedUp(struct node *T[], struct node *z){
 	        if (y->color == RED)
 	         {
 	            (z->p)->color = BLACK;
-	            y->color = RED;
+	            y->color = BLACK;
 	            ((z->p)->p)->color = RED;
 	            z = (z->p)->p;
-		 }else{
-		  if (z == (z->p)->right)
-		    {
-		      z = z->p;
-		      leftRotate(T,z);
-		    }
-		  (z->p)->color = BLACK;
-		  ((z->p)->p)->color = RED;
-		  rightRotate(T, ((z->p)->p));
-		}
+		          }else{
+		              if (z == (z->p)->right)
+		                {
+		                    z = z->p;
+		                    leftRotate(T,z);
+		                    }
+		              (z->p)->color = BLACK;
+		              ((z->p)->p)->color = RED;
+		              rightRotate(T, ((z->p)->p));
+		              }
       }else{
       	    y = ((z->p)->p)->left;
-	        if (y->color == RED)
-	        {
-	            (z->p)->color = BLACK;
-	            y->color = RED;
-	            ((z->p)->p)->color = RED;
-	            z = (z->p)->p;
-	        }else{
-		  if (z == (z->p)->left)
-		    {
-		      z = z->p;
-		      rightRotate(T,z);
-		    }
-		  (z->p)->color = BLACK;
-		  ((z->p)->p)->color = RED;
-		  leftRotate(T, ((z->p)->p));
-		}
+	           if (y->color == RED)
+	            {
+	                (z->p)->color = BLACK;
+	                y->color = BLACK;
+	                ((z->p)->p)->color = RED;
+	                z = (z->p)->p;
+	           }else{
+		          if (z == (z->p)->left)
+		            {
+		                z = z->p;
+		                rightRotate(T,z);
+		                }
+		          (z->p)->color = BLACK;
+		          ((z->p)->p)->color = RED;
+		          leftRotate(T, ((z->p)->p));
+		          }
         }
   }
   T_root->color = BLACK;
 }
 
 void printArray(struct node *x, int xLength){
-  
+
   cout<<endl<<"Now print the array:"<<endl;
-  
+
   for (int i = 0; i < xLength; ++i)
     {
       cout<<"x["<<i<<"]->key  :"<<(x+i)->key<<"\t"
-          <<"x["<<i<<"]->color:"<<(x+i)->color<<endl;
+          <<"x["<<i<<"]->color:"<<((x+i)->color == 1? "RED  " : "BLACK")<<" "
+          <<"LEFT:"<<(x+i)->left->key<<"\t"
+          <<"RIGHT:"<<(x+i)->right->key<<endl;
     }
 }
 
@@ -167,6 +160,7 @@ int main(int argc, char *argv[])
     }
 
   printArray(x, MAXLENGTH);
+  print_t(T_root, T_nil);
 
   return 0;
 }
