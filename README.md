@@ -9,5 +9,6 @@
 - [x] Right Rotate
 - [x] Insert
 - [x] Insert Fix UP
-- [ ] Delete
-- [ ] Delete Fix up
+- [x] Delete
+- [x] Delete Fix up
+- [ ] Trigger for deleting
