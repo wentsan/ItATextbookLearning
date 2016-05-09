@@ -11,4 +11,4 @@
 - [x] Insert Fix UP
 - [x] Delete
 - [x] Delete Fix up
-- [ ] Trigger for deleting
+- [x] Trigger for deleting
