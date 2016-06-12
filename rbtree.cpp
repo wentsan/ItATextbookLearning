@@ -47,7 +47,7 @@ void rightRotate(struct node *T[], struct node *x) {
   y->left = x->right;
   if (x->right != T_nil) (x->right)->p = y;
   y->p = x->p;
-  if (x->p != T_nil) {
+  if (x->p == T_nil) {
     T_root = y;
   }else if (x == (x->p)->left) {
     (x->p)->left = y;
