@@ -6,7 +6,11 @@ using namespace std;
 #define T_root T[1]
 #define RED 1
 #define BLACK 0
-#define MAXLENGTH 10
+#define MAXWORD 20
+
+#ifndef ASCII0
+#define ASCII0 int('0')
+#endif
 
 struct node *treeMinimum(struct node *T[], struct node *x);
 void leftRotate(struct node *T[], struct node *x);
@@ -15,7 +19,7 @@ void rbInsert(struct node *T[], struct node *z);
 void rbInsertFixedUp(struct node *T[], struct node *z);
 void rbDelete(struct node *T[], struct node *z);
 void rbDeleteFixedUp(struct node *T[], struct node *x);
-void printArray(struct node *x);
+void printArray(struct node *x, int xlength);
 
 struct node *treeMinimum(struct node *T[], struct node *x) {
   while (x->left != T_nil) {
@@ -44,10 +48,10 @@ void leftRotate(struct node *T[], struct node *x) {
 void rightRotate(struct node *T[], struct node *x) {
   struct node *y = T_nil;
   y = x->left;
-  y->left = x->right;
+  x->left = y->right;
   if (x->right != T_nil) (x->right)->p = y;
   y->p = x->p;
-  if (x->p != T_nil) {
+  if (x->p == T_nil) {
     T_root = y;
   }else if (x == (x->p)->left) {
     (x->p)->left = y;
@@ -243,11 +247,12 @@ void printArray(struct node *x, int xLength){
 
 int main(int argc, char *argv[])
 {
-  struct node x[MAXLENGTH];
+  struct node *x=NULL;
   struct node transNil;
   struct node *T[2];
 
-  char modifyOrNot;
+  int length = 0;
+  int finish = 0;
 
   transNil.p = NULL;
   transNil.left = NULL;
@@ -260,30 +265,46 @@ int main(int argc, char *argv[])
 
   //cout<<T_nil<<endl<<T_root<<endl;
 
-  for (int i = 0; i < MAXLENGTH; ++i)
-    {
-      x[i].p = T_nil;
-      cout << "x["<<i<<"]:  ___\b\b\b";
-      cin >> x[i].key;
-      x[i].left = T_nil;
-      x[i].right = T_nil;
-      x[i].color = BLACK;
-      rbInsert(T, x+i);
+  cout<<"Enter the elements of Red-Black Tree."<<endl
+      <<"Enter 'p' to print."<<endl;
+  while (1){
+    int th = 0, i = 0;
+    char c[MAXWORD];
+
+    cout<<"x["<<length<<"]: ";
+    cin>>c;
+    if (*c == 'p')
+      break;
+    
+    while(c[i] != '\0' && c[i] != '\n'){
+      th = th*10 + int(c[i])-ASCII0;
+      i++;
     }
 
-  printArray(x, MAXLENGTH);
+    x = (struct node *)realloc(x, sizeof(struct node)*(++length));
+    x[length-1].p = T_nil;
+    x[length-1].key = th;
+    x[length-1].left = T_nil;
+    x[length-1].right = T_nil;
+    x[length-1].color = BLACK;
+    rbInsert(T, x+length-1);
+  }
+  
+  printArray(x, length);
   print_t(T_root, T_nil);
 
   while (1) {
-    cout << "Continue to modify the tree?[y/n]: ";
-    cin >> modifyOrNot;
-    if (modifyOrNot == 'y') {
+    cout<<"Continue to modify the tree?[y/n]: ";
+    char c;
+    cin>>c;
+    if (c == 'y') {
       int index;
       cout << "Please enter the array index that you want to delete: ";
       cin >> index;
       rbDelete(T, x + index);
       print_t(T_root, T_nil);
     }else{
+      free(x);
       return 0;
     }
   }

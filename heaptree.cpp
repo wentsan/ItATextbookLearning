@@ -81,9 +81,9 @@ int main(int argc, char *argv[])
       <<"MAXHEAP RESULT:"
       <<endl;
   printArray(arh,Size);
-  
+
   for (int i = arrayLength-1; i >0; --i)
-    {      
+    {
       swap(*arh, *(arh+i));
       arrayLength=arrayLength-1;
       arh=maxHeap(arh,1,arrayLength);
