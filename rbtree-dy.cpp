@@ -268,18 +268,14 @@ int main(int argc, char *argv[])
   cout<<"Enter the elements of Red-Black Tree."<<endl
       <<"Enter 'p' to print."<<endl;
   while (1){
-    int th = 0, i = 0;
+    int th = 0;
     char c[MAXWORD];
 
     cout<<"x["<<length<<"]: ";
-    cin>>c;
+    fgets(c, MAXWORD, stdin);
+    th = atoi(c);
     if (*c == 'p')
       break;
-    
-    while(c[i] != '\0' && c[i] != '\n'){
-      th = th*10 + int(c[i])-ASCII0;
-      i++;
-    }
 
     x = (struct node *)realloc(x, sizeof(struct node)*(++length));
     x[length-1].p = T_nil;
